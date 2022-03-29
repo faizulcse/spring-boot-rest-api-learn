@@ -1,7 +1,6 @@
-package com.aapon.springbootrestapilearn.restapi;
+package com.aapon.springbootrestapilearn.restapibasicexample;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 //@Controller
 //public class RestApiController {
@@ -17,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RestApiController {
     // localhost:8080/employees
-
-    @GetMapping("/employees")
-    public String getEmployees() {
-        return "Hello Rest API faizul";
-    }
+//
+//    @GetMapping("/employees")
+//    public String getEmployees() {
+//        return "Hello Rest API faizul";
+//    }
 }
