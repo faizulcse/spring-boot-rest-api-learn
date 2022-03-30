@@ -1,14 +1,23 @@
 package com.aapon.springbootrestapilearn.controller;
 
 import com.aapon.springbootrestapilearn.model.Employee;
+import com.aapon.springbootrestapilearn.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class EmployeeController {
+    // localhost:8080/api/v1/employees
+
+    @Autowired
+    private EmployeeService eService;
+
     // localhost:8080/employees
     @GetMapping("/employees")
-    public String getEmployees() {
-        return "Display list of Employee Details";
+    public List<Employee> getEmployees() {
+        return eService.getEmployees();
     }
 
     //localhost:8080/employees/123
