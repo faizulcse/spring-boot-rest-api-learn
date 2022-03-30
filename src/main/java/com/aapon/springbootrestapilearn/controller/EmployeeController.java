@@ -1,4 +1,4 @@
-package com.aapon.springbootrestapilearn.restaipparameterpassing;
+package com.aapon.springbootrestapilearn.controller;
 
 import com.aapon.springbootrestapilearn.model.Employee;
 import org.springframework.web.bind.annotation.*;
