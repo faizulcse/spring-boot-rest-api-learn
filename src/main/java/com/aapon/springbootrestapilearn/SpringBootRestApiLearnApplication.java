@@ -9,5 +9,4 @@ public class SpringBootRestApiLearnApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootRestApiLearnApplication.class, args);
 	}
-
 }
