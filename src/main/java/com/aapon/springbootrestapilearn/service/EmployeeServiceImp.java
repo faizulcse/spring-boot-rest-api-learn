@@ -30,4 +30,9 @@ public class EmployeeServiceImp implements EmployeeService {
             return employee.get();
         throw new RuntimeException("Employee not found for the id " + id);
     }
+
+    @Override
+    public void deleteEmployee(Long id) {
+        eRepository.deleteById(id);
+    }
 }
