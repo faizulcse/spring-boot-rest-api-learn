@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Entity
-@Table(name = "tbl_employee")
+@Table(name = "employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
