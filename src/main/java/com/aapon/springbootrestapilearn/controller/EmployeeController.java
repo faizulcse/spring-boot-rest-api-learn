@@ -18,8 +18,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public String getEmployee(@PathVariable Long id) {
-        return "Employee Details of id: " + id;
+    public Employee getEmployee(@PathVariable Long id) {
+        return eService.getSingleEmployee(id);
     }
 
     @PostMapping("/employees")
