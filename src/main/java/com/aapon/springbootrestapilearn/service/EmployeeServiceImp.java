@@ -28,16 +28,26 @@ public class EmployeeServiceImp implements EmployeeService {
         Optional<Employee> employee = eRepository.findById(id);
         if (employee.isPresent())
             return employee.get();
-        throw new RuntimeException("Employee not found for the id " + id);
+        throw new RuntimeException("Employee not found for the id: " + id);
     }
 
     @Override
     public void deleteEmployee(Long id) {
-        eRepository.deleteById(id);
+        if (eRepository.existsById(id))
+            eRepository.deleteById(id);
+        else
+            throw new RuntimeException("Employee not found for the id: " + id);
     }
 
     @Override
     public Employee updateEmployee(Employee employee) {
-        return eRepository.save(employee);
+        if (eRepository.existsById(employee.getId()))
+            return eRepository.save(employee);
+        throw new RuntimeException("Employee not found for the id: " + employee.getId());
+    }
+
+    @Override
+    public List<Employee> getEmployeeByName(String name) {
+        return eRepository.findByName(name);
     }
 }
