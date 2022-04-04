@@ -23,6 +23,30 @@
 			"response": []
 		},
 		{
+			"name": "getEmployeesByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/employees/filterByName?name=aapon",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"employees",
+						"filterByName"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "aapon"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "getAppDetails",
 			"request": {
 				"method": "GET",
@@ -45,13 +69,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/employees/123",
+					"raw": "{{baseUrl}}/employees/1",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"employees",
-						"123"
+						"1"
 					]
 				}
 			},
@@ -63,7 +87,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/employees?id=10",
+					"raw": "{{baseUrl}}/employees?id=2",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -73,7 +97,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "10"
+							"value": "2"
 						}
 					]
 				}
@@ -87,7 +111,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"Faizul\",\r\n    \"age\":\"28\",\r\n    \"location\":\"Dhaka\",\r\n    \"email\":\"faizulcse@gmail.com\",\r\n    \"department\":\"IT\"\r\n}",
+					"raw": "{\r\n        \"email\": \"\",\r\n    \"name\": \"\",\r\n    \"department\": \"\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -113,7 +137,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"full_name\":\"Aaponcse\",\r\n    \"age\":\"28\",\r\n    \"location\":\"Barisal\",\r\n    \"email\":\"faizulcse@gmail.com\",\r\n    \"department\":\"IT\"\r\n}",
+					"raw": "{\r\n        \"name\": \"faizul\",\r\n        \"age\": 28,\r\n        \"location\": \"Dhaka\",\r\n        \"email\": \"aapon@gmail.com\",\r\n        \"department\": \"IT\"\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -121,13 +145,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/employees/45",
+					"raw": "{{baseUrl}}/employees/4",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"employees",
-						"45"
+						"4"
 					]
 				}
 			},
