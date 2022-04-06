@@ -1,12 +1,15 @@
 package com.aapon.springbootrestapilearn.model;
 
-import com.aapon.springbootrestapilearn.request.EmployeeRequest;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -21,11 +24,21 @@ public class Employee {
     @NotBlank(message = "Name should not be null")
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+    private Long age = 0L;
+    private String location;
 
-    public Employee(EmployeeRequest req) {
-        this.name = req.getName();
-    }
+    @Email(message = "Please enter the valid email")
+    @NotBlank(message = "Email should not be null")
+    private String email;
+
+    @NotBlank(message = "Department should not be null")
+    private String department;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Date updatedAt;
 }
