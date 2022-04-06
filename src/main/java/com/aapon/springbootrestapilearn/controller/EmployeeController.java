@@ -58,4 +58,9 @@ public class EmployeeController {
         eService.deleteEmployee(id);
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/employees/filter/{name}")
+    public ResponseEntity<List<Employee>> getEmployeesByDepartment(@PathVariable String name) {
+        return new ResponseEntity<List<Employee>>(eRepo.findByDepartmentName(name), HttpStatus.OK);
+    }
 }
