@@ -4,6 +4,7 @@ import com.aapon.springbootrestapilearn.model.Employee;
 import com.aapon.springbootrestapilearn.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
     @Override
     public List<Employee> getEmployees(int pageNumber, int pageSize) {
-        PageRequest pages = PageRequest.of(pageNumber, pageSize);
+        PageRequest pages = PageRequest.of(pageNumber, pageSize, Sort.Direction.DESC, "id");
         return eRepository.findAll(pages).getContent();
     }
 
@@ -60,6 +61,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
     @Override
     public List<Employee> getEmployeesByKeyword(String name) {
-        return eRepository.findByNameContaining(name);
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        return eRepository.findByNameContaining(name, sort);
     }
 }

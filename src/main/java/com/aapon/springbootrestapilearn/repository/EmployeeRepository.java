@@ -1,6 +1,7 @@
 package com.aapon.springbootrestapilearn.repository;
 
 import com.aapon.springbootrestapilearn.model.Employee;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +13,5 @@ public interface EmployeeRepository extends PagingAndSortingRepository<Employee,
 
     List<Employee> findByNameAndLocation(String name, String location);
 
-    List<Employee> findByNameContaining(String keyword);
+    List<Employee> findByNameContaining(String keyword, Sort sort);
 }
