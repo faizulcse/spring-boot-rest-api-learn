@@ -3,6 +3,7 @@ package com.aapon.springbootrestapilearn.service;
 import com.aapon.springbootrestapilearn.model.Employee;
 import com.aapon.springbootrestapilearn.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +15,9 @@ public class EmployeeServiceImp implements EmployeeService {
     private EmployeeRepository eRepository;
 
     @Override
-    public List<Employee> getEmployees() {
-        return eRepository.findAll();
+    public List<Employee> getEmployees(int pageNumber, int pageSize) {
+        PageRequest pages = PageRequest.of(pageNumber, pageSize);
+        return eRepository.findAll(pages).getContent();
     }
 
     @Override
