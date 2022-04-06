@@ -44,6 +44,16 @@ public class EmployeeController {
 
     @GetMapping("/employees/filterByName")
     public ResponseEntity<List<Employee>> getEmployeesByName(@RequestParam String name) {
-        return new ResponseEntity<List<Employee>>(eService.getEmployeeByName(name), HttpStatus.OK);
+        return new ResponseEntity<List<Employee>>(eService.getEmployeesByName(name), HttpStatus.OK);
+    }
+
+    @GetMapping("/employees/filterByNameAndLocation")
+    public ResponseEntity<List<Employee>> getEmployeesByNameAndLocation(@RequestParam String name, @RequestParam String location) {
+        return new ResponseEntity<List<Employee>>(eService.getEmployeesByNameAndLocation(name, location), HttpStatus.OK);
+    }
+
+    @GetMapping("/employees/filterByKeyword")
+    public ResponseEntity<List<Employee>> getEmployeesByKeyword(@RequestParam String name) {
+        return new ResponseEntity<List<Employee>>(eService.getEmployeesByKeyword(name), HttpStatus.OK);
     }
 }
