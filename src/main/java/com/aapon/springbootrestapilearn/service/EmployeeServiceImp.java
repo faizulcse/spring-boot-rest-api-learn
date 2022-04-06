@@ -64,4 +64,14 @@ public class EmployeeServiceImp implements EmployeeService {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         return eRepository.findByNameContaining(name, sort);
     }
+
+    @Override
+    public List<Employee> getEmployeesByNameOrLocation(String name, String location) {
+        return eRepository.getEmployeesByNameOrLocation(name, location);
+    }
+
+    @Override
+    public Integer deleteEmployeeByName(String name) {
+        return eRepository.deleteEmployeeByName(name);
+    }
 }
