@@ -1,4 +1,4 @@
-name: Manual workflow
+name: Manual workflow CI
 
 on:
   workflow_dispatch:
