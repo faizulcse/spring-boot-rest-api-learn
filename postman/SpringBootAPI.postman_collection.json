@@ -66,6 +66,9 @@
 		},
 		{
 			"name": "getAppInfo",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -76,6 +79,26 @@
 					],
 					"path": [
 						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loadtest",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/load_test",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"load_test"
 					]
 				}
 			},
