@@ -3,22 +3,21 @@ import { sleep, check } from 'k6';
 
 export const options = {
   discardResponseBodies: true,
-  vus: 100,
-  iterations:1000
+  vus: 1,
+  iterations: 1000,
+  duration: '5m'
 };
 
 export function setup() {
-    console.log("=====setUp==========> ");
+    console.log(new Date(), "=====setUp==========> ");
 }
 
 export default function(data){
     const res = http.get('https://test.sharebus.co/');
-    console.log("=====execute_api====> ", res.status);
-    check(res, {
-        'is status 200': (r) => r.status === 200,
-      });
+    console.log(new Date(),"=====res_status=====> ", res.status_text);
+    check(res, {'is status 200': (r) => r.status === 200});
 }
 
 export function teardown(data) {
-    console.log("=====tearDown=======> ");
+    console.log(new Date(), "=====tearDown=======> ");
 }

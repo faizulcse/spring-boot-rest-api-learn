@@ -13,7 +13,7 @@ export function setup() {
 }
 
 export default function(data){
-    const res = http.get('http://localhost:9090/api/v1/normalApi');
+    const res = http.get('https://test.sharebus.co/');
     console.log("=====res_status=====> ", res.status_text);
     check(res, {'is status 200': (r) => r.status === 200});
 }
