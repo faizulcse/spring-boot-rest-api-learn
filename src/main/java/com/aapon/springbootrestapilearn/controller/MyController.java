@@ -1,6 +1,7 @@
 package com.aapon.springbootrestapilearn.controller;
 
 import com.github.javafaker.Faker;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +16,14 @@ public class MyController {
     public ResponseEntity<String> normalApi(@RequestHeader(value = "User-Agent") String userAgent) {
         String log = String.format("%s. [%s] ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
         System.out.println(log);
-        return ResponseEntity.ok().body(log);
+        return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @GetMapping("/normalSyncApi")
     public synchronized ResponseEntity<String> normalSyncApi(@RequestHeader(value = "User-Agent") String userAgent) {
         String log = String.format("%s. [%s] ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
         System.out.println(log);
-        return ResponseEntity.ok().body(log);
+        return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @GetMapping("/fixedDelayApi")
@@ -31,7 +32,7 @@ public class MyController {
         Thread.sleep(wait);
         String log = String.format("%s. [%s] ====(%s)====> [%s] ===> %s", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent, wait);
         System.out.println(log);
-        return ResponseEntity.ok().body(log);
+        return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @GetMapping("/randomDelayApi")
@@ -40,7 +41,7 @@ public class MyController {
         Thread.sleep(wait);
         String log = String.format("%s. [%s] ====(%s)====> [%s] ===> %s", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent, wait);
         System.out.println(log);
-        return ResponseEntity.ok().body(log);
+        return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @GetMapping("/fixedDelaySyncApi")
@@ -49,7 +50,7 @@ public class MyController {
         Thread.sleep(wait);
         String log = String.format("%s. [%s] ====(%s)====> [%s] ===> %s", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent, wait);
         System.out.println(log);
-        return ResponseEntity.ok().body(log);
+        return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @GetMapping("/randomDelaySyncApi")
@@ -58,7 +59,7 @@ public class MyController {
         Thread.sleep(wait);
         String log = String.format("%s. [%s] ====(%s)====> [%s] ===> %s", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent, wait);
         System.out.println(log);
-        return ResponseEntity.ok().body(log);
+        return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @PostMapping("/printApiBody")
