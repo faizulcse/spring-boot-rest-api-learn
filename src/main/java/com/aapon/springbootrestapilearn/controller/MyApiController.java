@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @RestController
-public class MyController {
+public class MyApiController {
     private static long count = 1;
 
     @GetMapping("/normalApi")
@@ -28,7 +28,7 @@ public class MyController {
 
     @GetMapping("/fixedDelayApi")
     public ResponseEntity<String> fixedDelayApi(@RequestHeader(value = "User-Agent") String userAgent) throws InterruptedException {
-        int wait = 999;
+        int wait = 80000;
         Thread.sleep(wait);
         String log = String.format("%s. [%s] ====(%s)====> [%s] ===> %s", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent, wait);
         System.out.println(log);
@@ -70,35 +70,35 @@ public class MyController {
 
     @GetMapping("/api1")
     public ResponseEntity<String> api1(@RequestHeader(value = "User-Agent") String userAgent) {
-        String log = String.format("[%s] api1 ====(%s)====> [%s]", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
+        String log = String.format("%s. [%s] api1 ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
         System.out.println(log);
         return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @GetMapping("/api2")
     public ResponseEntity<String> api2(@RequestHeader(value = "User-Agent") String userAgent) {
-        String log = String.format("[%s] api2 ====(%s)====> [%s]", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
+        String log = String.format("%s. [%s] api2 ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
         System.out.println(log);
         return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @GetMapping("/api3")
     public ResponseEntity<String> api3(@RequestHeader(value = "User-Agent") String userAgent) {
-        String log = String.format("[%s] api3 ====(%s)====> [%s]", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
+        String log = String.format("%s. [%s] api3 ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
         System.out.println(log);
         return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @GetMapping("/api4")
     public ResponseEntity<String> api4(@RequestHeader(value = "User-Agent") String userAgent) {
-        String log = String.format("[%s] api4 ====(%s)====> [%s]", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
+        String log = String.format("%s. [%s] api4 ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
         System.out.println(log);
         return ResponseEntity.status(HttpStatus.OK).body(log);
     }
 
     @GetMapping("/api5")
     public ResponseEntity<String> api5(@RequestHeader(value = "User-Agent") String userAgent) {
-        String log = String.format("[%s] api5 ====(%s)====> [%s]", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
+        String log = String.format("%s. [%s] api5 ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
         System.out.println(log);
         return ResponseEntity.status(HttpStatus.OK).body(log);
     }
