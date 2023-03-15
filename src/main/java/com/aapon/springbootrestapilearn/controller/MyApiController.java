@@ -102,4 +102,18 @@ public class MyApiController {
         System.out.println(log);
         return ResponseEntity.status(HttpStatus.OK).body(log);
     }
+
+    @GetMapping("/apiWithHeaderData")
+    public static synchronized ResponseEntity<String> apiWithHeaderData(@RequestHeader("Scenario-Id") String scenarioId, @RequestHeader(value = "User-Agent") String userAgent) {
+        String log = String.format("%s. [%s] apiWithHeaderData ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), scenarioId, userAgent);
+        System.out.println(log);
+        return ResponseEntity.status(HttpStatus.OK).body(log);
+    }
+
+    @GetMapping("/apiWithPathData/{scenarioId}")
+    public static synchronized ResponseEntity<String> apiWithPathData(@PathVariable String scenarioId, @RequestHeader(value = "User-Agent") String userAgent) {
+        String log = String.format("%s. [%s] apiWithPathData ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), scenarioId, userAgent);
+        System.out.println(log);
+        return ResponseEntity.status(HttpStatus.OK).body(log);
+    }
 }
