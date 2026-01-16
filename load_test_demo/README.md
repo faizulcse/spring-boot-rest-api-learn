@@ -1,0 +1,1 @@
+``` "test:smoke": "dotenv -e .env.test k6 run src/tests/smoke.js",```

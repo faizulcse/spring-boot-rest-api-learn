@@ -1,0 +1,29 @@
+{
+  "name": "load_test_demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:script": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/script.js",
+
+    "format": "prettier --write **/*.js",
+    "filter_warning": "test -s output.json && jq -r 'select((.level // \"\") == \"warning\") | [(.error // \"\")] | @csv' output.json > warning.csv || true",
+    "filter_error": "test -s output.json && jq -r 'select((.level // \"\") == \"error\" and (.source // \"\") == \"console\") | [(.msg // \"\")] | @csv' output.json > errors.csv || true",
+
+    "warning_report": "npm run filter_warning && sort warning.csv -o warning.csv",
+    "error_report": "npm run filter_error && sort errors.csv -o errors.csv"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faizulcse/oslofjorder-load-tests-automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/k6": "^0.45.1",
+    "k6": "^0.0.0",
+    "dotenv-cli": "^11.0.0",
+    "prettier": "^3.0.0"
+  }
+}

@@ -3,68 +3,58 @@ package com.aapon.springbootrestapilearn.controller;
 import com.github.javafaker.Faker;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import static com.aapon.springbootrestapilearn.CustomApiLogger.loggerGenerator;
 
 @RestController
 public class MyApiController {
-    private static long count = 1;
-
     @GetMapping("/normalApi")
-    public ResponseEntity<String> normalApi(@RequestHeader(value = "User-Agent") String userAgent) {
-        String log = String.format("%s. [%s] ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
-        System.out.println(log);
-        return ResponseEntity.status(HttpStatus.OK).body(log);
+    public ResponseEntity<String> normalApi() {
+        loggerGenerator("/normalApi");
+        return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
 
     @GetMapping("/normalSyncApi")
-    public synchronized ResponseEntity<String> normalSyncApi(@RequestHeader(value = "User-Agent") String userAgent) {
-        String log = String.format("%s. [%s] ====(%s)====> [%s]", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent);
-        System.out.println(log);
-        return ResponseEntity.status(HttpStatus.OK).body(log);
+    public synchronized ResponseEntity<String> normalSyncApi() {
+        loggerGenerator("/normalSyncApi");
+        return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
 
     @GetMapping("/fixedDelayApi")
-    public ResponseEntity<String> fixedDelayApi(@RequestHeader(value = "User-Agent") String userAgent) throws InterruptedException {
-        int wait = 80000;
-        Thread.sleep(wait);
-        String log = String.format("%s. [%s] ====(%s)====> [%s] ===> %s", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent, wait);
-        System.out.println(log);
-        return ResponseEntity.status(HttpStatus.OK).body(log);
+    public ResponseEntity<String> fixedDelayApi() throws InterruptedException {
+        Thread.sleep(80000);
+        loggerGenerator("/fixedDelayApi");
+        return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
 
     @GetMapping("/randomDelayApi")
-    public ResponseEntity<String> randomDelayApi(@RequestHeader(value = "User-Agent") String userAgent) throws InterruptedException {
-        long wait = new Faker().random().nextInt(1, 10) * 100;
-        Thread.sleep(wait);
-        String log = String.format("%s. [%s] ====(%s)====> [%s] ===> %s", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent, wait);
-        System.out.println(log);
-        return ResponseEntity.status(HttpStatus.OK).body(log);
+    public ResponseEntity<String> randomDelayApi() throws InterruptedException {
+        Thread.sleep(new Faker().random().nextInt(1, 10) * 100);
+        loggerGenerator("/randomDelayApi");
+        return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
 
     @GetMapping("/fixedDelaySyncApi")
-    public synchronized ResponseEntity<String> fixedDelaySyncApi(@RequestHeader(value = "User-Agent") String userAgent) throws InterruptedException {
-        int wait = 999;
-        Thread.sleep(wait);
-        String log = String.format("%s. [%s] ====(%s)====> [%s] ===> %s", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent, wait);
-        System.out.println(log);
-        return ResponseEntity.status(HttpStatus.OK).body(log);
+    public synchronized ResponseEntity<String> fixedDelaySyncApi() throws InterruptedException {
+        Thread.sleep(999);
+        loggerGenerator("/fixedDelaySyncApi");
+        return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
 
     @GetMapping("/randomDelaySyncApi")
-    public synchronized ResponseEntity<String> randomDelaySyncApi(@RequestHeader(value = "User-Agent") String userAgent) throws InterruptedException {
-        long wait = new Faker().random().nextInt(1, 10) * 100;
-        Thread.sleep(wait);
-        String log = String.format("%s. [%s] ====(%s)====> [%s] ===> %s", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), "version-v1", userAgent, wait);
-        System.out.println(log);
-        return ResponseEntity.status(HttpStatus.OK).body(log);
+    public synchronized ResponseEntity<String> randomDelaySyncApi() throws InterruptedException {
+        Thread.sleep(new Faker().random().nextInt(1, 10) * 100);
+        loggerGenerator("/randomDelaySyncApi");
+        return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
 
     @PostMapping("/printApiBody")
     public ResponseEntity<String> printApiBody(@RequestBody String data) {
-        System.out.println(data);
+        loggerGenerator("/printApiBody");
         return ResponseEntity.ok().body(data);
     }
 }

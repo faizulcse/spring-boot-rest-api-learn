@@ -1,8 +1,13 @@
 package com.aapon.springbootrestapilearn.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.aapon.springbootrestapilearn.CustomApiLogger.loggerGenerator;
+
 
 @RestController
 public class ApplicationController {
@@ -13,7 +18,8 @@ public class ApplicationController {
     private String appVersion;
 
     @GetMapping("/version")
-    public String getAppDetails() {
-        return appName + " - " + appVersion;
+    public ResponseEntity<String> normalApi() {
+        loggerGenerator("/version");
+        return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
 }
