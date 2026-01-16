@@ -1,1 +1,0 @@
-Run `k6 run ./k6_script/example_k6.js`
