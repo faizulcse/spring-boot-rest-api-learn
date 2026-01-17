@@ -37,7 +37,7 @@ export const bookingCheckIn = getDateTimeWithFormat(randomDay);
 export const bookingCheckOut = getDateTimeWithFormat(randomDay + 1);
 
 export const endPoints = Object.freeze({
-  VERSION: `${API_URL}/api/v1/version`,
+  APP_INFO: `${API_URL}/api/v1/app_info`,
   API1: `${API_URL}/api/v1/api1`,
   API2: `${API_URL}/api/v1/api2`,
   API3: `${API_URL}/api/v1/api3`,
@@ -53,12 +53,14 @@ export const endPoints = Object.freeze({
   RANDOM_DELAY_SYNC_API: `${API_URL}/api/v1/randomDelaySyncApi`,
   PRINT_API_BODY: `${API_URL}/api/v1/printApiBody`,
   EMPLOYEES: `${API_URL}/api/v1/employees`,
+  EMPLOYEES_PAGED: `${API_URL}/api/v1/employees?pageNumber={pageNumber}&pageSize={pageSize}`,
   EMPLOYEE_BY_ID: `${API_URL}/api/v1/employees/{id}`,
-  EMPLOYEES_FILTER_BY_NAME: `${API_URL}/api/v1/employees/filterByName`,
-  EMPLOYEES_FILTER_BY_NAME_AND_LOCATION: `${API_URL}/api/v1/employees/filterByNameAndLocation`,
-  EMPLOYEES_FILTER_BY_KEYWORD: `${API_URL}/api/v1/employees/filterByKeyword`,
+  EMPLOYEES_FILTER_BY_NAME: `${API_URL}/api/v1/employees/filterByName?name={name}`,
+  EMPLOYEES_FILTER_BY_NAME_AND_LOCATION: `${API_URL}/api/v1/employees/filterByNameAndLocation?name={name}&location={location}`,
+  EMPLOYEES_FILTER_BY_KEYWORD: `${API_URL}/api/v1/employees/filterByKeyword?name={name}`,
   EMPLOYEE_BY_NAME_AND_LOCATION: `${API_URL}/api/v1/employees/{name}/{location}`,
   EMPLOYEE_DELETE_BY_NAME: `${API_URL}/api/v1/employees/delete/{name}`,
+  EMPLOYEE_DELETE_BY_ID: `${API_URL}/api/v1/employees?id={id}`,
 });
 
 export const statusMessage = (response) => {

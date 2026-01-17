@@ -1,5 +1,6 @@
 package com.aapon.springbootrestapilearn.controller;
 
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +12,27 @@ import static com.aapon.springbootrestapilearn.CustomApiLogger.loggerGenerator;
 
 @RestController
 public class ApplicationController {
-    @Value("${app.name: Employee Tracker}")
+    @Value("${app.name}")
     private String appName;
 
-    @Value("${app.version: version1}")
+    @Value("${app.version}")
     private String appVersion;
 
-    @GetMapping("/version")
+    @Value("${server.port}")
+    private String port;
+
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
+
+    @GetMapping("/app_info")
     public ResponseEntity<String> normalApi() {
-        loggerGenerator("/version");
-        return ResponseEntity.status(HttpStatus.OK).body("{}");
+        loggerGenerator("/app_info");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("name", appName);
+        jsonObject.addProperty("version", appVersion);
+        jsonObject.addProperty("port", port);
+        jsonObject.addProperty("context_path", contextPath);
+        jsonObject.addProperty("base_url", "http://localhost:" + port + contextPath);
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
     }
 }
