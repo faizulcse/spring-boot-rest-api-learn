@@ -1,6 +1,6 @@
 package com.aapon.springbootrestapilearn.controller;
 
-import com.github.javafaker.Faker;
+import net.datafaker.Faker;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +33,7 @@ public class MyApiController {
 
     @GetMapping("/randomDelayApi")
     public ResponseEntity<String> randomDelayApi() throws InterruptedException {
-        Thread.sleep(new Faker().random().nextInt(1, 10) * 100);
+        Thread.sleep(new Faker().number().numberBetween(1, 10) * 100L);
         loggerGenerator("/randomDelayApi");
         return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
@@ -47,7 +47,7 @@ public class MyApiController {
 
     @GetMapping("/randomDelaySyncApi")
     public synchronized ResponseEntity<String> randomDelaySyncApi() throws InterruptedException {
-        Thread.sleep(new Faker().random().nextInt(1, 10) * 100);
+        Thread.sleep(new Faker().number().numberBetween(1, 10) * 100L);
         loggerGenerator("/randomDelaySyncApi");
         return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
