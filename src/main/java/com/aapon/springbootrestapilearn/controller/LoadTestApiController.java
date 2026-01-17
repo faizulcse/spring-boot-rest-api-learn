@@ -43,7 +43,7 @@ public class LoadTestApiController {
 
     @GetMapping("/apiWithHeaderData")
     public static synchronized ResponseEntity<String> apiWithHeaderData(@RequestHeader("scenarioId") String scenarioId) {
-        loggerGenerator("/apiWithHeaderData");
+        loggerGenerator("/apiWithHeaderData?scenarioId=" + scenarioId);
         return ResponseEntity.status(HttpStatus.OK).body("{}");
     }
 

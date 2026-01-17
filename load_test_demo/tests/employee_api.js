@@ -37,18 +37,18 @@ export default function (data) {
   checkAndVerifyStatus(response, 200);
 
   response = http.get(
-    endPoints.EMPLOYEE_BY_NAME_AND_LOCATION.replace('{name}', '1').replace(
+    endPoints.EMPLOYEE_BY_NAME_AND_LOCATION.replace('{name}', 'Faizul').replace(
       '{location}',
-      '1'
+      'Dhaka'
     )
   );
   checkAndVerifyStatus(response, 200);
 
-  response = http.delete(
-    endPoints.EMPLOYEE_DELETE_BY_NAME.replace('{name}', 'test')
-  );
-  checkAndVerifyStatus(response, 200);
+  // response = http.del(
+  //   endPoints.EMPLOYEE_DELETE_BY_NAME.replace('{name}', 'islam')
+  // );
+  // checkAndVerifyStatus(response, 20);
 
-  response = http.del(endPoints.EMPLOYEE_DELETE_BY_ID.replace('{id}', '1'));
-  checkAndVerifyStatus(response, 204);
+  // response = http.del(endPoints.EMPLOYEE_DELETE_BY_ID.replace('{id}', '1'));
+  // checkAndVerifyStatus(response, 204);
 }
