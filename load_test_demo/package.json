@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test:dashboard": "K6_WEB_DASHBOARD=true dotenv -e .env.test k6 run tests/script.js",
     "test:script": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/script.js",
     "test:application": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/application_api.js",
     "test:load": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/load_test_api.js",
