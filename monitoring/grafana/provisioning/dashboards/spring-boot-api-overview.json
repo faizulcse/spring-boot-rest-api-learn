@@ -162,6 +162,19 @@
         {"refId": "A", "expr": "tomcat_threads_busy_threads", "legendFormat": "busy"},
         {"refId": "B", "expr": "tomcat_threads_current_threads", "legendFormat": "current"}
       ]
+    },
+    {
+      "type": "timeseries",
+      "title": "In-flight requests (custom)",
+      "gridPos": {"x": 0, "y": 27, "w": 24, "h": 7},
+      "datasource": {"type": "prometheus", "uid": "${DS_PROMETHEUS}"},
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "in_flight",
+          "legendFormat": "in_flight"
+        }
+      ]
     }
   ]
 }
