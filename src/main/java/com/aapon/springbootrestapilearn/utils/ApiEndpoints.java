@@ -10,8 +10,7 @@ public final class ApiEndpoints {
     public static final String EMPLOYEE_FILTER_BY_NAME_AND_LOCATION = "/employees/filter_by_name_and_location";
     public static final String EMPLOYEE_FILTER_BY_KEYWORD = "/employees/filter_by_keyword";
     public static final String EMPLOYEE_BY_NAME_AND_LOCATION = "/employees/{name}/{location}";
-    public static final String EMPLOYEE_DELETE_BY_NAME = "/employees/delete_by_name";
-
+    public static final String EMPLOYEE_DELETE_BY_NAME = "/employees/delete/{name}";
 
     public static final String APP_INFO = "/app_info";
     public static final String WITH_HEADER_DATA = "/api_with_header_data";

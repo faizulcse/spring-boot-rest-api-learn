@@ -1,7 +1,6 @@
 package com.aapon.springbootrestapilearn.controller;
 
 import com.aapon.springbootrestapilearn.utils.ApiEndpoints;
-import com.aapon.springbootrestapilearn.utils.ApiLogger;
 import com.google.gson.JsonObject;
 import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,8 +24,6 @@ public class LoadTestApiController {
 
     @GetMapping(ApiEndpoints.APP_INFO)
     public ResponseEntity<String> appInfoApi() {
-        ApiLogger.loggerGenerator(ApiEndpoints.APP_INFO);
-
         JsonObject appInfo = new JsonObject();
         appInfo.addProperty("name", appName);
         appInfo.addProperty("version", appVersion);
@@ -38,59 +35,50 @@ public class LoadTestApiController {
 
     @GetMapping(ApiEndpoints.WITH_HEADER_DATA)
     public synchronized ResponseEntity<String> apiWithHeaderData(@RequestHeader("scenario_id") String scenario_id) {
-        ApiLogger.loggerGenerator(ApiEndpoints.WITH_HEADER_DATA + "?scenario_id=" + scenario_id);
-        return ResponseEntity.status(HttpStatus.OK).body("{}");
+        return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.WITH_PATH_DATA)
     public synchronized ResponseEntity<String> apiWithPathData(@PathVariable String scenario_id) {
-        ApiLogger.loggerGenerator(ApiEndpoints.WITH_PATH_DATA.replace("{scenario_id}", scenario_id));
-        return ResponseEntity.status(HttpStatus.OK).body("{}");
+        return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.NORMAL)
     public ResponseEntity<String> normalApi() {
-        ApiLogger.loggerGenerator(ApiEndpoints.NORMAL);
-        return ResponseEntity.status(HttpStatus.OK).body("{}");
+        return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.NORMAL_SYNC)
     public synchronized ResponseEntity<String> normalSyncApi() {
-        ApiLogger.loggerGenerator(ApiEndpoints.NORMAL_SYNC);
-        return ResponseEntity.status(HttpStatus.OK).body("{}");
+        return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.FIXED_DELAY)
-    public ResponseEntity<String> fixedDelayApi() throws InterruptedException {
-        Thread.sleep(80000);
-        ApiLogger.loggerGenerator(ApiEndpoints.FIXED_DELAY);
-        return ResponseEntity.status(HttpStatus.OK).body("{}");
+    public ResponseEntity<String> fixedDelayApi(@RequestParam Long delay) throws InterruptedException {
+        Thread.sleep(delay);
+        return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.RANDOM_DELAY)
-    public ResponseEntity<String> randomDelayApi() throws InterruptedException {
-        Thread.sleep(new Faker().number().numberBetween(1, 10) * 100L);
-        ApiLogger.loggerGenerator(ApiEndpoints.RANDOM_DELAY);
-        return ResponseEntity.status(HttpStatus.OK).body("{}");
+    public ResponseEntity<String> randomDelayApi(@RequestParam Long delay) throws InterruptedException {
+        Thread.sleep(delay);
+        return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.FIXED_DELAY_SYNC)
-    public synchronized ResponseEntity<String> fixedDelaySyncApi() throws InterruptedException {
-        Thread.sleep(999);
-        ApiLogger.loggerGenerator(ApiEndpoints.FIXED_DELAY_SYNC);
-        return ResponseEntity.status(HttpStatus.OK).body("{}");
+    public synchronized ResponseEntity<String> fixedDelaySyncApi(@RequestParam Long delay) throws InterruptedException {
+        Thread.sleep(delay);
+        return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.RANDOM_DELAY_SYNC)
-    public synchronized ResponseEntity<String> randomDelaySyncApi() throws InterruptedException {
-        Thread.sleep(new Faker().number().numberBetween(1, 10) * 100L);
-        ApiLogger.loggerGenerator(ApiEndpoints.RANDOM_DELAY_SYNC);
-        return ResponseEntity.status(HttpStatus.OK).body("{}");
+    public synchronized ResponseEntity<String> randomDelaySyncApi(@RequestParam Long delay) throws InterruptedException {
+        Thread.sleep(delay);
+        return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @PostMapping(ApiEndpoints.PRINT_BODY)
     public ResponseEntity<String> printApiBody(@RequestBody String data) {
-        ApiLogger.loggerGenerator(ApiEndpoints.PRINT_BODY);
         return ResponseEntity.ok().body(data);
     }
 }
