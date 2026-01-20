@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { checkAndVerifyStatus, endPoints } from '../utils/index.js';
+import { checkAndVerifyStatus, ApiEndpoints, TIMEOUT } from '../utils/index.js';
 
 export const options = {};
 
@@ -7,28 +7,38 @@ export function setup() {}
 
 export default function (data) {
   let response;
-  response = http.get(endPoints.API1);
-  checkAndVerifyStatus(response, 200);
 
-  response = http.get(endPoints.API2);
-  checkAndVerifyStatus(response, 200);
-
-  response = http.get(endPoints.API3);
-  checkAndVerifyStatus(response, 200);
-
-  response = http.get(endPoints.API4);
-  checkAndVerifyStatus(response, 200);
-
-  response = http.get(endPoints.API5);
-  checkAndVerifyStatus(response, 200);
-
-  response = http.get(endPoints.API_WITH_HEADER_DATA, {
-    headers: { scenarioId: '1' },
+  response = http.get(ApiEndpoints.API_WITH_HEADER_DATA, {
+    headers: { scenario_id: '1' },
   });
   checkAndVerifyStatus(response, 200);
 
   response = http.get(
-    endPoints.API_WITH_PATH_DATA.replace('{scenarioId}', '1')
+    ApiEndpoints.API_WITH_PATH_DATA.replace('{scenario_id}', '1')
   );
+  checkAndVerifyStatus(response, 200);
+
+  response = http.get(ApiEndpoints.NORMAL_API);
+  checkAndVerifyStatus(response, 200);
+
+  response = http.get(ApiEndpoints.NORMAL_SYNC_API);
+  checkAndVerifyStatus(response, 200);
+
+  response = http.get(ApiEndpoints.FIXED_DELAY_API, { timeout: TIMEOUT });
+  checkAndVerifyStatus(response, 200);
+
+  response = http.get(ApiEndpoints.RANDOM_DELAY_API);
+  checkAndVerifyStatus(response, 200);
+
+  response = http.get(ApiEndpoints.FIXED_DELAY_SYNC_API);
+  checkAndVerifyStatus(response, 200);
+
+  response = http.get(ApiEndpoints.RANDOM_DELAY_SYNC_API);
+  checkAndVerifyStatus(response, 200);
+
+  response = http.post(ApiEndpoints.PRINT_API_BODY, 'ping', {
+    headers: { 'Content-Type': 'text/plain' },
+    timeout: TIMEOUT,
+  });
   checkAndVerifyStatus(response, 200);
 }

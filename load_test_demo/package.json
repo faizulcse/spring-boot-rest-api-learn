@@ -4,12 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:dashboard": "K6_WEB_DASHBOARD=true dotenv -e .env.test k6 run tests/script.js",
-    "test:script": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/script.js",
     "test:application": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/application_api.js",
-    "test:load": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/load_test_api.js",
     "test:employee": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/employee_api.js",
-    "test:my_api": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/my_api.js",
+    "test:load_test": ": > output.json && dotenv -e .env.test -- k6 run --log-format=json --log-output=stderr --log-output=file=./output.json tests/load_test_api.js",
 
     "format": "prettier --write **/*.js",
     "filter_warning": "test -s output.json && jq -r 'select((.level // \"\") == \"warning\") | [(.error // \"\")] | @csv' output.json > warning.csv || true",

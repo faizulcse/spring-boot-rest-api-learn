@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { checkAndVerifyStatus, endPoints } from '../utils/index.js';
+import { checkAndVerifyStatus, ApiEndpoints } from '../utils/index.js';
 import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 import { randomString } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
@@ -18,8 +18,8 @@ export function setup() {}
 export default function (data) {
   let response;
   response = http.get(
-    endPoints.EMPLOYEES_PAGED.replace('{pageNumber}', '0').replace(
-      '{pageSize}',
+    ApiEndpoints.EMPLOYEES_PAGED.replace('{page_number}', '0').replace(
+      '{page_size}',
       '10'
     )
   );
@@ -32,7 +32,7 @@ export default function (data) {
   };
 
   response = http.post(
-    endPoints.EMPLOYEES,
+    ApiEndpoints.EMPLOYEES,
     JSON.stringify({
       name: randomString(6),
       age: randomIntBetween(18, 60),
@@ -44,11 +44,11 @@ export default function (data) {
   );
   checkAndVerifyStatus(response, 201);
 
-  response = http.get(endPoints.EMPLOYEE_BY_ID.replace('{id}', '1'));
+  response = http.get(ApiEndpoints.EMPLOYEE_BY_ID.replace('{id}', '1'));
   checkAndVerifyStatus(response, 200);
 
   response = http.put(
-    endPoints.EMPLOYEE_BY_ID.replace('{id}', '1'),
+    ApiEndpoints.EMPLOYEE_BY_ID.replace('{id}', '1'),
     JSON.stringify({
       name: randomString(6),
       age: randomIntBetween(18, 60),
@@ -61,12 +61,12 @@ export default function (data) {
   checkAndVerifyStatus(response, 200);
 
   response = http.get(
-    endPoints.EMPLOYEES_FILTER_BY_NAME.replace('{name}', 'test')
+    ApiEndpoints.EMPLOYEES_FILTER_BY_NAME.replace('{name}', 'test')
   );
   checkAndVerifyStatus(response, 200);
 
   response = http.get(
-    endPoints.EMPLOYEES_FILTER_BY_NAME_AND_LOCATION.replace(
+    ApiEndpoints.EMPLOYEES_FILTER_BY_NAME_AND_LOCATION.replace(
       '{name}',
       'test'
     ).replace('{location}', 'test')
@@ -74,23 +74,23 @@ export default function (data) {
   checkAndVerifyStatus(response, 200);
 
   response = http.get(
-    endPoints.EMPLOYEES_FILTER_BY_KEYWORD.replace('{name}', 'te')
+    ApiEndpoints.EMPLOYEES_FILTER_BY_KEYWORD.replace('{name}', 'te')
   );
   checkAndVerifyStatus(response, 200);
 
   response = http.get(
-    endPoints.EMPLOYEE_BY_NAME_AND_LOCATION.replace('{name}', 'Faizul').replace(
-      '{location}',
-      'Dhaka'
-    )
+    ApiEndpoints.EMPLOYEE_BY_NAME_AND_LOCATION.replace(
+      '{name}',
+      'Faizul'
+    ).replace('{location}', 'Dhaka')
   );
   checkAndVerifyStatus(response, 200);
 
   // response = http.del(
-  //   endPoints.EMPLOYEE_DELETE_BY_NAME.replace('{name}', 'islam')
+  //   ApiEndpoints.EMPLOYEE_DELETE_BY_NAME.replace('{name}', 'islam')
   // );
   // checkAndVerifyStatus(response, 204);
 
-  // response = http.del(endPoints.EMPLOYEE_DELETE_BY_ID.replace('{id}', '1'));
+  // response = http.del(ApiEndpoints.EMPLOYEE_DELETE_BY_ID.replace('{id}', '1'));
   // checkAndVerifyStatus(response, 204);
 }
