@@ -1,6 +1,7 @@
 package com.aapon.springbootrestapilearn.controller;
 
 import com.aapon.springbootrestapilearn.monitoring.InFlightRequestCounter;
+import com.aapon.springbootrestapilearn.utils.ApiEndpoints;
 import com.google.gson.JsonObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class MonitoringController {
         this.inFlightRequestCounter = inFlightRequestCounter;
     }
 
-    @GetMapping("/internal/inflight")
+    @GetMapping(ApiEndpoints.INFLIGHT)
     public ResponseEntity<String> inflight() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("in_flight", inFlightRequestCounter.get());

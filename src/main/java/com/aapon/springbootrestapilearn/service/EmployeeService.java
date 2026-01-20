@@ -5,7 +5,7 @@ import com.aapon.springbootrestapilearn.model.Employee;
 import java.util.List;
 
 public interface EmployeeService {
-    List<Employee> getEmployees(int pageNumber, int pageSize);
+    List<Employee> getEmployees(int page_number, int page_size);
 
     Employee saveEmployee(Employee employee);
 
