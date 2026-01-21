@@ -5,19 +5,19 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class InFlightRequestFilter extends OncePerRequestFilter {
-    private static long count = 1;
+    private static final Logger log = LoggerFactory.getLogger(InFlightRequestFilter.class);
     private final boolean LOGGER_ENABLED = System.getenv("LOGGER_ENABLED") != null && System.getenv("LOGGER_ENABLED").equals("true");
 
     private final InFlightRequestCounter counter;
@@ -40,8 +40,8 @@ public class InFlightRequestFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
             if (LOGGER_ENABLED) {
-                String api_url = String.format("%-6s %s %s", request.getMethod(), response.getStatus(), request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : ""));
-                System.out.printf("%-10s [%s] %s%n", count++, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), api_url);
+                String url = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+                log.info(String.format("%-6s %s    [Status: %s]", request.getMethod(), url, response.getStatus()));
             }
         } finally {
             counter.decrement();

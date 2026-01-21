@@ -1,5 +1,6 @@
 package com.aapon.springbootrestapilearn.service;
 
+import com.aapon.springbootrestapilearn.exception.EmployeeNotFoundException;
 import com.aapon.springbootrestapilearn.model.Employee;
 import com.aapon.springbootrestapilearn.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class EmployeeServiceImp implements EmployeeService {
         Optional<Employee> employee = eRepository.findById(id);
         if (employee.isPresent())
             return employee.get();
-        throw new RuntimeException("Employee not found for the id: " + id);
+        throw new EmployeeNotFoundException("Employee not found for the id: " + id);
     }
 
     @Override
@@ -39,14 +40,14 @@ public class EmployeeServiceImp implements EmployeeService {
         if (eRepository.existsById(id))
             eRepository.deleteById(id);
         else
-            throw new RuntimeException("Employee not found for the id: " + id);
+            throw new EmployeeNotFoundException("Employee not found for the id: " + id);
     }
 
     @Override
     public Employee updateEmployee(Employee employee) {
         if (eRepository.existsById(employee.getId()))
             return eRepository.save(employee);
-        throw new RuntimeException("Employee not found for the id: " + employee.getId());
+        throw new EmployeeNotFoundException("Employee not found for the id: " + employee.getId());
     }
 
     @Override
