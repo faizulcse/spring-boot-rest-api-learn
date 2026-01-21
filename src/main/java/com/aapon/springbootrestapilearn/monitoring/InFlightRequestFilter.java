@@ -40,8 +40,9 @@ public class InFlightRequestFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
             if (LOGGER_ENABLED) {
-                String url = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
-                log.info(String.format("%-6s %s    [Status: %s]", request.getMethod(), url, response.getStatus()));
+                String status = response.getStatus() < 400 ? "✅" : "❌";
+                String queryString = request.getQueryString() != null ? "?" + request.getQueryString() : "";
+                log.info(String.format("%s [status: %s] %-6s %s", status, response.getStatus(), request.getMethod(), request.getRequestURL() + queryString));
             }
         } finally {
             counter.decrement();

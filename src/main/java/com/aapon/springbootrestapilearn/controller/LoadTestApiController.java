@@ -53,26 +53,26 @@ public class LoadTestApiController {
     }
 
     @GetMapping(ApiEndpoints.FIXED_DELAY)
-    public ResponseEntity<String> fixedDelayApi(@RequestParam Long delay) throws InterruptedException {
-        Thread.sleep(delay);
+    public ResponseEntity<String> fixedDelayApi(@RequestParam Long milliseconds) throws InterruptedException {
+        Thread.sleep(milliseconds);
         return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.RANDOM_DELAY)
-    public ResponseEntity<String> randomDelayApi(@RequestParam Long delay) throws InterruptedException {
-        Thread.sleep(delay);
+    public ResponseEntity<String> randomDelayApi(@RequestParam Long milliseconds) throws InterruptedException {
+        Thread.sleep(milliseconds);
         return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.FIXED_DELAY_SYNC)
-    public synchronized ResponseEntity<String> fixedDelaySyncApi(@RequestParam Long delay) throws InterruptedException {
-        Thread.sleep(delay);
+    public synchronized ResponseEntity<String> fixedDelaySyncApi(@RequestParam Long milliseconds) throws InterruptedException {
+        Thread.sleep(milliseconds);
         return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 
     @GetMapping(ApiEndpoints.RANDOM_DELAY_SYNC)
-    public synchronized ResponseEntity<String> randomDelaySyncApi(@RequestParam Long delay) throws InterruptedException {
-        Thread.sleep(delay);
+    public synchronized ResponseEntity<String> randomDelaySyncApi(@RequestParam Long milliseconds) throws InterruptedException {
+        Thread.sleep(milliseconds);
         return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());
     }
 

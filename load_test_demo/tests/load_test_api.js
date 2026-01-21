@@ -1,9 +1,14 @@
 import http from 'k6/http';
 import { checkAndVerifyStatus, ApiEndpoints, TIMEOUT } from '../utils/index.js';
+import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+
+const setDelayInSeconds = () => {
+  return randomIntBetween(1, 10) * 1000;
+}
 
 export const options = {};
 
-export function setup() {}
+export function setup() { }
 
 export default function (data) {
   let response;
@@ -24,16 +29,16 @@ export default function (data) {
   response = http.get(ApiEndpoints.NORMAL_SYNC_API);
   checkAndVerifyStatus(response, 200);
 
-  response = http.get(ApiEndpoints.FIXED_DELAY_API, { timeout: TIMEOUT });
+  response = http.get(ApiEndpoints.FIXED_DELAY_API.replace('{milliseconds}', setDelayInSeconds()), { timeout: TIMEOUT });
   checkAndVerifyStatus(response, 200);
 
-  response = http.get(ApiEndpoints.RANDOM_DELAY_API);
+  response = http.get(ApiEndpoints.RANDOM_DELAY_API.replace('{milliseconds}', setDelayInSeconds()), { timeout: TIMEOUT });
   checkAndVerifyStatus(response, 200);
 
-  response = http.get(ApiEndpoints.FIXED_DELAY_SYNC_API);
+  response = http.get(ApiEndpoints.FIXED_DELAY_SYNC_API.replace('{milliseconds}', setDelayInSeconds()), { timeout: TIMEOUT });
   checkAndVerifyStatus(response, 200);
 
-  response = http.get(ApiEndpoints.RANDOM_DELAY_SYNC_API);
+  response = http.get(ApiEndpoints.RANDOM_DELAY_SYNC_API.replace('{milliseconds}', setDelayInSeconds()), { timeout: TIMEOUT });
   checkAndVerifyStatus(response, 200);
 
   response = http.post(ApiEndpoints.PRINT_API_BODY, 'ping', {
