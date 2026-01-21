@@ -18,6 +18,24 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleInternalServerError(Exception ex, WebRequest request) {
+        String description = request.getDescription(false);
+        String path = description != null && description.startsWith("uri=")
+                ? description.substring("uri=".length())
+                : description;
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", Instant.now().toString());
+        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        body.put("error", "Internal Server Error");
+        body.put("errorCode", "INTERNAL_SERVER_ERROR");
+        body.put("path", path);
+        body.put("message", "Something went wrong. Please try again later.");
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+    }
+
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<Object> handleEmployeeNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
         String description = request.getDescription(false);
