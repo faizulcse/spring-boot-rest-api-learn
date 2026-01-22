@@ -1,13 +1,19 @@
 package com.aapon.springbootrestapilearn.controller;
 
 import com.aapon.springbootrestapilearn.filter.RequestFilter;
+import com.aapon.springbootrestapilearn.model.Employee;
 import com.aapon.springbootrestapilearn.utils.ApiEndpoints;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class MonitoringController {
@@ -44,5 +50,36 @@ public class MonitoringController {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("in_flight", requestFilter.getInFlightCount());
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+    }
+
+    @GetMapping("/client_info")
+    public ResponseEntity<String> getClientIpAddress(HttpServletRequest request) {
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+        }
+
+        JsonObject client = new JsonObject();
+        client.addProperty("ip", ipAddress);
+        client.addProperty("method", request.getMethod());
+        client.addProperty("uri", request.getRequestURI());
+        client.addProperty("query", request.getQueryString());
+        client.addProperty("scheme", request.getScheme());
+        client.addProperty("secure", request.isSecure());
+        client.addProperty("userAgent", request.getHeader("User-Agent"));
+        client.addProperty("acceptLanguage", request.getHeader("Accept-Language"));
+        client.addProperty("referer", request.getHeader("Referer"));
+        client.addProperty("origin", request.getHeader("Origin"));
+        client.addProperty("host", request.getHeader("Host"));
+        client.addProperty("xForwardedProto", request.getHeader("X-Forwarded-Proto"));
+
+        Pattern p = Pattern.compile("\\(([^)]*)\\)");
+        Matcher m = p.matcher(client.get("userAgent").getAsString());
+        if (m.find()) {
+            String inside = m.group(1); // Linux; Android 10; K
+            client.addProperty("platform", inside.split("; ")[0]);
+            client.addProperty("os", inside.split("; ")[1]);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(client.toString());
     }
 }
