@@ -97,7 +97,16 @@ public class RequestFilter extends OncePerRequestFilter {
                 String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
                 String status = response.getStatus() < 400 ? "✅" : "❌";
                 String queryString = request.getQueryString() != null ? "?" + request.getQueryString() : "";
-                System.out.printf("%-10s [%s]   %s [status: %s] %-6s %s%n", count++, timeStamp, status, response.getStatus(), request.getMethod(), request.getRequestURL() + queryString);
+                String msg = String.format(
+                        "%-10s [%s]   %s [status: %s] %-6s %s",
+                        count++,
+                        timeStamp,
+                        status,
+                        response.getStatus(),
+                        request.getMethod(),
+                        request.getRequestURL() + queryString
+                );
+                System.out.println(msg);
             }
         }
     }

@@ -9,29 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LoadTestApiController {
-    @Value("${app.name}")
-    private String appName;
-
-    @Value("${app.version}")
-    private String appVersion;
-
-    @Value("${server.port}")
-    private String port;
-
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
-
-    @GetMapping(ApiEndpoints.APP_INFO)
-    public ResponseEntity<String> appInfoApi() {
-        JsonObject appInfo = new JsonObject();
-        appInfo.addProperty("name", appName);
-        appInfo.addProperty("version", appVersion);
-        appInfo.addProperty("port", port);
-        appInfo.addProperty("context_path", contextPath);
-
-        return ResponseEntity.status(HttpStatus.OK).body(appInfo.toString());
-    }
-
     @GetMapping(ApiEndpoints.WITH_HEADER_DATA)
     public synchronized ResponseEntity<String> apiWithHeaderData(@RequestHeader("scenario_id") String scenario_id) {
         return ResponseEntity.status(HttpStatus.OK).body(new JsonObject().toString());

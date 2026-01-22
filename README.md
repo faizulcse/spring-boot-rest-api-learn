@@ -2,6 +2,8 @@
 
 Spring Boot REST API project (Java 17, Maven, Spring Boot 3.x) with MySQL + Spring Data JPA.
 
+Base URL (default): `http://localhost:9090/api/v1`
+
 ## Prerequisites
 
 - **Java**: 17
@@ -18,12 +20,18 @@ Default settings are in `src/main/resources/application.properties`:
 - **DB user/pass**: `root` / `root`
 - **DDL**: `spring.jpa.hibernate.ddl-auto=update`
 - **Log file**: `logs/app.log`
+- **App name/version**: `app.name`, `app.version`
+- **Rate limit** (Bucket4j): `app.ratelimit.*`
 
 If your local DB credentials differ, update:
 
 - `spring.datasource.url`
 - `spring.datasource.username`
 - `spring.datasource.password`
+
+### Request logging
+
+The request filter prints simple request logs to stdout when the `LOGGER_ENABLED` environment variable is set to `true`.
 
 ## Database setup (local MySQL)
 
@@ -57,8 +65,19 @@ LOGGER_ENABLED=false mvn spring-boot:run
 
 Start dependencies:
 
+Build with no cache:
+```bash
+docker compose -f compose.yml build --no-cache app
+```
+
+Run with detach mode:
 ```bash
 docker compose -f compose.yml up -d
+```
+
+Run without detach:
+```bash
+docker compose -f compose.yml up
 ```
 
 Run the app:
@@ -73,11 +92,66 @@ Stop dependencies:
 docker compose -f compose.yml down
 ```
 
+### Option C: Run the full stack via Docker Compose (MySQL + app)
+
+The `compose.yml` includes both `mysql` and `app` services.
+
+```bash
+docker compose -f compose.yml up --build
+```
+
 ## Verify the app is running
 
 Open:
 
 - `http://localhost:9090/api/v1/app_info`
+
+## API endpoints
+
+All routes below are relative to the base URL: `http://localhost:9090/api/v1`
+
+### Monitoring
+
+- `GET /app_info`
+  - Returns JSON with `name`, `version`, `port`, `context_path`.
+- `GET /internal/inflight`
+  - Returns current in-flight request count from the request filter.
+
+### Employees
+
+- `GET /employees?page_number=<int>&page_size=<int>`
+- `GET /employees/{id}`
+- `POST /employees`
+- `PUT /employees/{id}`
+- `DELETE /employees?id=<long>`
+- `GET /employees/filter_by_name?name=<string>`
+- `GET /employees/filter_by_name_and_location?name=<string>&location=<string>`
+- `GET /employees/filter_by_keyword?name=<string>`
+- `GET /employees/{name}/{location}`
+- `DELETE /employees/delete/{name}`
+
+## Rate limiting
+
+Rate limiting is implemented via Bucket4j in `RequestFilter` and is controlled by:
+
+- `app.ratelimit.enabled` (default `true`, currently set to `false` in `application.properties`)
+- `app.ratelimit.capacity`
+- `app.ratelimit.refill-tokens`
+- `app.ratelimit.refill-seconds`
+
+When enabled, the filter returns:
+
+- `429 Too Many Requests`
+- `Retry-After: <seconds>`
+- `X-Rate-Limit-Remaining: <tokens>` (when request is allowed)
+
+## Troubleshooting
+
+- **Port already in use**
+  - Change `server.port` in `application.properties`.
+- **Cannot connect to MySQL**
+  - Ensure MySQL is running and the database `restapi` exists.
+  - If running via Docker Compose, note that the app uses `jdbc:mysql://mysql:3306/restapi...` inside the compose network.
 
 ## Notes
 
