@@ -88,24 +88,32 @@ public class RequestFilter extends OncePerRequestFilter {
             response.setStatus(429);
             response.setHeader("Retry-After", String.valueOf(retryAfterSeconds));
             response.setContentType("application/json");
+            response.setHeader("Rate-Limit", "Too many requests");
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("message", "Too many requests");
             response.getWriter().write(jsonObject.toString());
         } finally {
             inFlight.decrementAndGet();
             if (LOGGER_ENABLED) {
+                String queryString = request.getQueryString();
+                String query = queryString != null ? "?" + queryString : "";
+                String rateLimit = response.getHeader("Rate-Limit");
+                String message = rateLimit != null ? rateLimit : "";
+
                 String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
-                String status = response.getStatus() < 400 ? "✅" : "❌";
-                String queryString = request.getQueryString() != null ? "?" + request.getQueryString() : "";
+                String countWithFormat = String.format("#%06d", count++);
+                String status = response.getStatus() < 400 ? "✅" : response.getStatus() >= 500 ? "❌" : "⚠️";
+                String methodWithFormat = String.format("%-6s", request.getMethod());
+                String uriWithFormat = String.format("%-70s", request.getRequestURI() + query);
                 String msg = String.format(
-                        "%-10s [%s]   %s [status: %s] %-6s %s",
-                        count++,
+                        "[%s] | %s | %s %s | %-6s | %s | %s",
                         timeStamp,
+                        countWithFormat,
                         status,
                         response.getStatus(),
-                        request.getMethod(),
-                        request.getRequestURL() + queryString
-                );
+                        methodWithFormat,
+                        uriWithFormat,
+                        message);
                 System.out.println(msg);
             }
         }

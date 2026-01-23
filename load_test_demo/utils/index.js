@@ -46,7 +46,7 @@ export const ApiEndpoints = Object.freeze({
   RANDOM_DELAY_API: `${API_URL}/api/v1/random_delay_api?milliseconds={milliseconds}`,
   FIXED_DELAY_SYNC_API: `${API_URL}/api/v1/fixed_delay_sync_api?milliseconds={milliseconds}`,
   RANDOM_DELAY_SYNC_API: `${API_URL}/api/v1/random_delay_sync_api?milliseconds={milliseconds}`,
-  PRINT_API_BODY: `${API_URL}/api/v1/print_api_body`,
+  PRINT_BODY_API: `${API_URL}/api/v1/print_body_api`,
   EMPLOYEES: `${API_URL}/api/v1/employees`,
   EMPLOYEES_PAGED: `${API_URL}/api/v1/employees?page_number={page_number}&page_size={page_size}`,
   EMPLOYEE_BY_ID: `${API_URL}/api/v1/employees/{id}`,

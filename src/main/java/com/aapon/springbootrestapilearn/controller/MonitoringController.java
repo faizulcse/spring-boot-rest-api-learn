@@ -54,31 +54,33 @@ public class MonitoringController {
     @GetMapping(ApiEndpoints.CLIENT_INFO)
     public ResponseEntity<String> getClientIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        String userAgent  = request.getHeader("User-Agent");
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
         }
 
         JsonObject client = new JsonObject();
         client.addProperty("ip", ipAddress);
+        client.addProperty("userAgent", userAgent);
+
+        Matcher m = Pattern.compile("\\(([^)]*)\\)").matcher(userAgent);
+        if (m.find()) {
+            String agent = m.group(1);
+            client.addProperty("platform", agent.split("; ")[0]);
+            client.addProperty("os", agent.split("; ")[1]);
+        }
+
         client.addProperty("method", request.getMethod());
         client.addProperty("uri", request.getRequestURI());
         client.addProperty("query", request.getQueryString());
         client.addProperty("scheme", request.getScheme());
         client.addProperty("secure", request.isSecure());
-        client.addProperty("userAgent", request.getHeader("User-Agent"));
         client.addProperty("acceptLanguage", request.getHeader("Accept-Language"));
         client.addProperty("referer", request.getHeader("Referer"));
         client.addProperty("origin", request.getHeader("Origin"));
         client.addProperty("host", request.getHeader("Host"));
         client.addProperty("xForwardedProto", request.getHeader("X-Forwarded-Proto"));
 
-        Pattern p = Pattern.compile("\\(([^)]*)\\)");
-        Matcher m = p.matcher(client.get("userAgent").getAsString());
-        if (m.find()) {
-            String inside = m.group(1); // Linux; Android 10; K
-            client.addProperty("platform", inside.split("; ")[0]);
-            client.addProperty("os", inside.split("; ")[1]);
-        }
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(client.toString());
     }
 }
