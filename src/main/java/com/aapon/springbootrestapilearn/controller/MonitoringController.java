@@ -54,7 +54,7 @@ public class MonitoringController {
     @GetMapping(ApiEndpoints.CLIENT_INFO)
     public ResponseEntity<String> getClientIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-FORWARDED-FOR");
-        String userAgent  = request.getHeader("User-Agent");
+        String userAgent = request.getHeader("User-Agent");
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
         }

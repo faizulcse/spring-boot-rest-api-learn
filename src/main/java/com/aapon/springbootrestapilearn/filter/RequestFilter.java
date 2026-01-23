@@ -90,32 +90,29 @@ public class RequestFilter extends OncePerRequestFilter {
             response.setContentType("application/json");
             response.setHeader("Rate-Limit", "Too many requests");
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("message", "Too many requests");
+            jsonObject.addProperty("detail", "Too many requests");
             response.getWriter().write(jsonObject.toString());
         } finally {
             inFlight.decrementAndGet();
-            if (LOGGER_ENABLED) {
-                String queryString = request.getQueryString();
-                String query = queryString != null ? "?" + queryString : "";
-                String rateLimit = response.getHeader("Rate-Limit");
-                String message = rateLimit != null ? rateLimit : "";
-
-                String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
-                String countWithFormat = String.format("#%06d", count++);
-                String status = response.getStatus() < 400 ? "✅" : response.getStatus() >= 500 ? "❌" : "⚠️";
-                String methodWithFormat = String.format("%-6s", request.getMethod());
-                String uriWithFormat = String.format("%-70s", request.getRequestURI() + query);
-                String msg = String.format(
-                        "[%s] | %s | %s %s | %-6s | %s | %s",
-                        timeStamp,
-                        countWithFormat,
-                        status,
-                        response.getStatus(),
-                        methodWithFormat,
-                        uriWithFormat,
-                        message);
-                System.out.println(msg);
+            if (!LOGGER_ENABLED) {
+                return;
             }
+
+            int status = response.getStatus();
+            String queryString = request.getQueryString();
+            String query = queryString == null ? "" : "?" + queryString;
+            String path = request.getRequestURI() + query;
+
+            String msg = String.format(
+                    "[%s] | %s | %s %s | %-6s | %s | %s",
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
+                    String.format("#%06d", count++),
+                    statusIcon(status),
+                    status,
+                    String.format("%-6s", request.getMethod()),
+                    String.format("%-70s", path),
+                    headerOrEmpty(response, "Rate-Limit"));
+            System.out.println(msg);
         }
     }
 
@@ -131,5 +128,20 @@ public class RequestFilter extends OncePerRequestFilter {
             return forwardedFor.split(",")[0].trim();
         }
         return request.getRemoteAddr();
+    }
+
+    private static String statusIcon(int status) {
+        if (status < 400) {
+            return "✅";
+        }
+        if (status >= 500) {
+            return "❌";
+        }
+        return "⚠️";
+    }
+
+    private static String headerOrEmpty(HttpServletResponse response, String name) {
+        String value = response.getHeader(name);
+        return value == null ? "" : value;
     }
 }
