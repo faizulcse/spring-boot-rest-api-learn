@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,6 +70,6 @@ public class EmployeeController {
     public ResponseEntity<String> deleteEmployeeByName(@PathVariable String name) {
         JsonObject data = new JsonObject();
         data.addProperty("message", "No. of records deleted: " + eService.deleteEmployeeByName(name));
-        return ResponseEntity.status(HttpStatus.OK).body(data.toString());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(data.toString());
     }
 }

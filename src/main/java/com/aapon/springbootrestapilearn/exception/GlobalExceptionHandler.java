@@ -1,9 +1,6 @@
 package com.aapon.springbootrestapilearn.exception;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -51,7 +48,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         body.put("path", path);
         body.put("message", ex.getMessage());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(body);
     }
 
     @Override
@@ -80,6 +77,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         body.put("errorCode", "VALIDATION_ERROR");
         body.put("path", path);
         body.put("errors", errors);
-        return new ResponseEntity<>(body, status);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(body);
     }
 }

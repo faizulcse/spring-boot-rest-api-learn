@@ -1,13 +1,12 @@
 package com.aapon.springbootrestapilearn.controller;
 
 import com.aapon.springbootrestapilearn.filter.RequestFilter;
-import com.aapon.springbootrestapilearn.model.Employee;
 import com.aapon.springbootrestapilearn.utils.ApiEndpoints;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,17 +41,17 @@ public class MonitoringController {
         appInfo.addProperty("port", port);
         appInfo.addProperty("context_path", contextPath);
 
-        return ResponseEntity.status(HttpStatus.OK).body(appInfo.toString());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(appInfo.toString());
     }
 
     @GetMapping(ApiEndpoints.INFLIGHT)
     public ResponseEntity<String> inflight() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("in_flight", requestFilter.getInFlightCount());
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(jsonObject.toString());
     }
 
-    @GetMapping("/client_info")
+    @GetMapping(ApiEndpoints.CLIENT_INFO)
     public ResponseEntity<String> getClientIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-FORWARDED-FOR");
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
@@ -80,6 +79,6 @@ public class MonitoringController {
             client.addProperty("platform", inside.split("; ")[0]);
             client.addProperty("os", inside.split("; ")[1]);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(client.toString());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(client.toString());
     }
 }

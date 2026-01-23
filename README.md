@@ -130,6 +130,30 @@ All routes below are relative to the base URL: `http://localhost:9090/api/v1`
 - `GET /employees/{name}/{location}`
 - `DELETE /employees/delete/{name}`
 
+### Load test
+
+- `GET /api_with_header_data`
+  - Requires header `scenario_id: <string>`
+- `GET /api_with_path_data/{scenario_id}`
+- `GET /normal_api`
+- `GET /normal_sync_api`
+- `GET /fixed_delay_api?milliseconds=<long>`
+- `GET /random_delay_api?milliseconds=<long>`
+- `GET /fixed_delay_sync_api?milliseconds=<long>`
+- `GET /random_delay_sync_api?milliseconds=<long>`
+- `POST /print_body_api`
+  - Body: JSON object
+
+Examples:
+
+```bash
+curl -i http://localhost:9090/api/v1/normal_api
+curl -i -H 'scenario_id: 1' http://localhost:9090/api/v1/api_with_header_data
+curl -i http://localhost:9090/api/v1/api_with_path_data/1
+curl -i 'http://localhost:9090/api/v1/fixed_delay_api?milliseconds=1000'
+curl -i -X POST http://localhost:9090/api/v1/print_body_api -H 'Content-Type: application/json' -d '{"ping":"pong"}'
+```
+
 ## Rate limiting
 
 Rate limiting is implemented via Bucket4j in `RequestFilter` and is controlled by:
